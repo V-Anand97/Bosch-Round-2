@@ -1,0 +1,11 @@
+---
+- name: Playbook to Deploy Todo app on Target VM (Ubuntu)
+  hosts: all
+  gather_facts: no
+  become: yes
+  vars:
+    ansible_python_interpreter: /bin/python3
+  roles:
+    #  - docker_installation
+    #  - copy_app_files
+      - docker-compose

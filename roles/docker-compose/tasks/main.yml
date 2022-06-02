@@ -1,0 +1,10 @@
+---
+# tasks file for docker-compose
+  - name: Install Docker Compose
+    pip: name=docker-compose
+
+  - name: Deploy Docker Compose Stack
+    docker_compose:
+     project_src: tmp/
+     files:
+     - docker-compose.yml

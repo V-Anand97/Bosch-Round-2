@@ -1,0 +1,53 @@
+---
+#This role installs Docker on ubuntu
+- name: Install Prerequisites
+  apt:
+    name:
+      - apt-transport-https
+      - ca-certificates
+      - curl
+      - gnupg-agent
+      - software-properties-common
+    update_cache: yes
+
+- name: Add apt-key
+  apt_key:
+    url: https://download.docker.com/linux/ubuntu/gpg
+
+
+- name: Add Docker repo
+  apt_repository:
+    repo: deb https://download.docker.com/linux/ubuntu focal stable
+
+- name: Install Docker
+  apt:
+    name:
+      - python3-docker
+      - pip
+      - docker-ce
+      - docker-ce-cli
+      - containerd.io
+    update_cache: yes
+
+- name: Add userpermissions
+  shell: "usermod -aG docker ubuntu"
+
+  # Installs Docker SDK
+
+- name: Install Python Package Manager
+  apt:
+    name: python3-pip
+
+- name: Install Python sdk
+  become_user: ubuntu
+  pip:
+    name:
+      - docker
+      - docker-compose
+
+- name: Install docker-compose
+  remote_user: ubuntu
+  get_url:
+    url : https://github.com/docker/compose/releases/download/1.25.1-rc1/docker-compose-Linux-x86_64
+    dest: /usr/local/bin/docker-compose
+    mode: 'u+x,g+x'
